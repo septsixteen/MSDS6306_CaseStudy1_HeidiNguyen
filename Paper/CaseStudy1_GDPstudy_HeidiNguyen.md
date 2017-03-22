@@ -134,14 +134,155 @@ setwd("/Volumes/NO NAME/Data Science/2016-0831 MSDS 6306 Doing Data Science/Unit
 source ("casestudy1_clean_data.R", print.eval=FALSE, echo=FALSE)
 ```
 
+Exam the cleaned GDP data. There are 190 observations. 
+
+
+```r
+setwd("/Volumes/NO NAME/Data Science/2016-0831 MSDS 6306 Doing Data Science/Unit 8/CaseStudy1/MSDS6306_CaseStudy1_HeidiNguyen/Data")
+print(head(GDP,10))
+```
+
+```
+##    CountryCode rank        CountryName GDP2012millionsUSD groupnote
+## 6          USA    1      United States           16244600          
+## 7          CHN    2              China            8227103          
+## 8          JPN    3              Japan            5959718          
+## 9          DEU    4            Germany            3428131          
+## 10         FRA    5             France            2612878          
+## 11         GBR    6     United Kingdom            2471784          
+## 12         BRA    7             Brazil            2252664          
+## 13         RUS    8 Russian Federation            2014775          
+## 14         ITA    9              Italy            2014670          
+## 15         IND   10              India            1841710
+```
+
+```r
+print(str(GDP))
+```
+
+```
+## 'data.frame':	190 obs. of  5 variables:
+##  $ CountryCode       : chr  "USA" "CHN" "JPN" "DEU" ...
+##  $ rank              : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ CountryName       : chr  "United States" "China" "Japan" "Germany" ...
+##  $ GDP2012millionsUSD: num  16244600 8227103 5959718 3428131 2612878 ...
+##  $ groupnote         : chr  "" "" "" "" ...
+## NULL
+```
+
+```r
+print(dim(GDP))
+```
+
+```
+## [1] 190   5
+```
+
+Exam the cleaned Education data. There are 210 observations.
+
+
+```r
+print(head(educlean,10))
+```
+
+```
+##    CountryCode          IncomeGroup
+## 1          ABW High income: nonOECD
+## 2          ADO High income: nonOECD
+## 3          AFG           Low income
+## 4          AGO  Lower middle income
+## 5          ALB  Upper middle income
+## 6          ARE High income: nonOECD
+## 7          ARG  Upper middle income
+## 8          ARM  Lower middle income
+## 9          ASM  Upper middle income
+## 10         ATG  Upper middle income
+```
+
+```r
+print(str(educlean))
+```
+
+```
+## 'data.frame':	210 obs. of  2 variables:
+##  $ CountryCode: chr  "ABW" "ADO" "AFG" "AGO" ...
+##  $ IncomeGroup: Factor w/ 6 levels "","High income: nonOECD",..: 2 2 4 5 6 2 6 5 6 6 ...
+## NULL
+```
+
+```r
+print(dim(educlean))
+```
+
+```
+## [1] 210   2
+```
+
 ### Analyze Data
-The casestudy1_analyze_data.R file analyzes the data to answer the study questions. 
+The casestudy1_analyze_data.R file merges and analyzes the data to answer the study questions. 
 
 ```r
 setwd("/Volumes/NO NAME/Data Science/2016-0831 MSDS 6306 Doing Data Science/Unit 8/CaseStudy1/MSDS6306_CaseStudy1_HeidiNguyen/Analysis")
 source ("casestudy1_analyze_data.R", print.eval=FALSE, echo=FALSE)
 ```
-#### Question 1: There are 189 matching IDs.
+
+Merge the cleaned GDP data and the cleaned Education data by short country name. The resulting data looks like the following: 
+
+
+```r
+print(head(clean,10))
+```
+
+```
+##    CountryCode rank          CountryName GDP2012millionsUSD
+## 1          ABW  161                Aruba               2584
+## 2          ADO   NA                 <NA>                 NA
+## 3          AFG  105          Afghanistan              20497
+## 4          AGO   60               Angola             114147
+## 5          ALB  125              Albania              12648
+## 6          ARE   32 United Arab Emirates             348595
+## 7          ARG   26            Argentina             475502
+## 8          ARM  133              Armenia               9951
+## 9          ASM   NA                 <NA>                 NA
+## 10         ATG  172  Antigua and Barbuda               1134
+##             IncomeGroup
+## 1  High income: nonOECD
+## 2  High income: nonOECD
+## 3            Low income
+## 4   Lower middle income
+## 5   Upper middle income
+## 6  High income: nonOECD
+## 7   Upper middle income
+## 8   Lower middle income
+## 9   Upper middle income
+## 10  Upper middle income
+```
+
+```r
+print(str(clean))
+```
+
+```
+## 'data.frame':	211 obs. of  5 variables:
+##  $ CountryCode       : chr  "ABW" "ADO" "AFG" "AGO" ...
+##  $ rank              : int  161 NA 105 60 125 32 26 133 NA 172 ...
+##  $ CountryName       : chr  "Aruba" NA "Afghanistan" "Angola" ...
+##  $ GDP2012millionsUSD: int  2584 NA 20497 114147 12648 348595 475502 9951 NA 1134 ...
+##  $ IncomeGroup       : chr  "High income: nonOECD" "High income: nonOECD" "Low income" "Lower middle income" ...
+## NULL
+```
+
+```r
+print(dim(clean))
+```
+
+```
+## [1] 211   5
+```
+
+#### Question 1: Finding matching IDs 
+
+There are 189 matching IDs
 
 ```r
 print(dim(matchID))
@@ -151,7 +292,51 @@ print(dim(matchID))
 ## [1] 189   4
 ```
 
-##### Question 2: The 13th country from the sorted data is St. Kitts and Nevis. 
+There are 22 unmatching IDs
+
+```r
+print(dim(nonmatchID))
+```
+
+```
+## [1] 22  4
+```
+
+##### Question 2: Sort the matching 189 data and find the 13th country from the sorted data.
+
+Here is the sorted data by ascending rank: 
+
+
+```r
+print(head(matchIDsorted))
+```
+
+```
+##     CountryCode rank GDP2012millionsUSD         IncomeGroup quantile
+## 193         TUV  190                 40 Lower middle income       Q5
+## 101         KIR  189                175 Lower middle income       Q5
+## 124         MHL  188                182 Lower middle income       Q5
+## 151         PLW  187                228 Upper middle income       Q5
+## 174         STP  186                263 Lower middle income       Q5
+## 65          FSM  185                326 Lower middle income       Q5
+```
+
+```r
+print(tail(matchIDsorted))
+```
+
+```
+##     CountryCode rank GDP2012millionsUSD         IncomeGroup quantile
+## 67          GBR    6            2471784   High income: OECD       Q1
+## 63          FRA    5            2612878   High income: OECD       Q1
+## 49          DEU    4            3428131   High income: OECD       Q1
+## 96          JPN    3            5959718   High income: OECD       Q1
+## 37          CHN    2            8227103 Lower middle income       Q1
+## 198         USA    1           16244600   High income: OECD       Q1
+```
+
+The 13th country from the sorted data is St. Kitts and Nevis. 
+
 
 ```r
 print(matchIDsorted[13,])
@@ -181,14 +366,15 @@ print(mean(matchIDsorted[matchIDsorted$IncomeGroup == "High income: nonOECD","ra
 ## [1] 91.91304
 ```
 
-#### Question 4: Box Plot the GDP for all of the countries by Income Group
+#### Question 4: Box Plot the GDP for all of the 189 matching countries by Income Group. 
+
 #####Box Plot before log transform
 
 ```r
 plot(boxplot)
 ```
 
-![](CaseStudy1_GDPstudy_HeidiNguyen_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](CaseStudy1_GDPstudy_HeidiNguyen_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
 This plot indicates the GDP distributions for each Income Group are very skewed. A log 10 transformation is in order.
 
@@ -198,7 +384,7 @@ This plot indicates the GDP distributions for each Income Group are very skewed.
 plot(boxplotlog)
 ```
 
-![](CaseStudy1_GDPstudy_HeidiNguyen_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+![](CaseStudy1_GDPstudy_HeidiNguyen_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
 
 The log transformed GDP Density Distibutions by Income Group plot shows that the distributions are relatively normal under a log 10 transformation with different variabilities between the groups.
 

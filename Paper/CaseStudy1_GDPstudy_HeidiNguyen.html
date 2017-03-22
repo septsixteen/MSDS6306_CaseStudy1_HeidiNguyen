@@ -244,18 +244,118 @@ source (&quot;casestudy1_download_data.R&quot;, print.eval=TRUE, echo=FALSE)</co
 <p>Data cleanup is imperative to any data analysis. The following section will walk through cleaning the data to prep for analysis.</p>
 <pre class="r"><code>setwd(&quot;/Volumes/NO NAME/Data Science/2016-0831 MSDS 6306 Doing Data Science/Unit 8/CaseStudy1/MSDS6306_CaseStudy1_HeidiNguyen/Data&quot;)
 source (&quot;casestudy1_clean_data.R&quot;, print.eval=FALSE, echo=FALSE)</code></pre>
+<p>Exam the cleaned GDP data. There are 190 observations.</p>
+<pre class="r"><code>setwd(&quot;/Volumes/NO NAME/Data Science/2016-0831 MSDS 6306 Doing Data Science/Unit 8/CaseStudy1/MSDS6306_CaseStudy1_HeidiNguyen/Data&quot;)
+print(head(GDP,10))</code></pre>
+<pre><code>##    CountryCode rank        CountryName GDP2012millionsUSD groupnote
+## 6          USA    1      United States           16244600          
+## 7          CHN    2              China            8227103          
+## 8          JPN    3              Japan            5959718          
+## 9          DEU    4            Germany            3428131          
+## 10         FRA    5             France            2612878          
+## 11         GBR    6     United Kingdom            2471784          
+## 12         BRA    7             Brazil            2252664          
+## 13         RUS    8 Russian Federation            2014775          
+## 14         ITA    9              Italy            2014670          
+## 15         IND   10              India            1841710</code></pre>
+<pre class="r"><code>print(str(GDP))</code></pre>
+<pre><code>## 'data.frame':    190 obs. of  5 variables:
+##  $ CountryCode       : chr  &quot;USA&quot; &quot;CHN&quot; &quot;JPN&quot; &quot;DEU&quot; ...
+##  $ rank              : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ CountryName       : chr  &quot;United States&quot; &quot;China&quot; &quot;Japan&quot; &quot;Germany&quot; ...
+##  $ GDP2012millionsUSD: num  16244600 8227103 5959718 3428131 2612878 ...
+##  $ groupnote         : chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+## NULL</code></pre>
+<pre class="r"><code>print(dim(GDP))</code></pre>
+<pre><code>## [1] 190   5</code></pre>
+<p>Exam the cleaned Education data. There are 210 observations.</p>
+<pre class="r"><code>print(head(educlean,10))</code></pre>
+<pre><code>##    CountryCode          IncomeGroup
+## 1          ABW High income: nonOECD
+## 2          ADO High income: nonOECD
+## 3          AFG           Low income
+## 4          AGO  Lower middle income
+## 5          ALB  Upper middle income
+## 6          ARE High income: nonOECD
+## 7          ARG  Upper middle income
+## 8          ARM  Lower middle income
+## 9          ASM  Upper middle income
+## 10         ATG  Upper middle income</code></pre>
+<pre class="r"><code>print(str(educlean))</code></pre>
+<pre><code>## 'data.frame':    210 obs. of  2 variables:
+##  $ CountryCode: chr  &quot;ABW&quot; &quot;ADO&quot; &quot;AFG&quot; &quot;AGO&quot; ...
+##  $ IncomeGroup: Factor w/ 6 levels &quot;&quot;,&quot;High income: nonOECD&quot;,..: 2 2 4 5 6 2 6 5 6 6 ...
+## NULL</code></pre>
+<pre class="r"><code>print(dim(educlean))</code></pre>
+<pre><code>## [1] 210   2</code></pre>
 </div>
 <div id="analyze-data" class="section level3">
 <h3>Analyze Data</h3>
-<p>The casestudy1_analyze_data.R file analyzes the data to answer the study questions.</p>
+<p>The casestudy1_analyze_data.R file merges and analyzes the data to answer the study questions.</p>
 <pre class="r"><code>setwd(&quot;/Volumes/NO NAME/Data Science/2016-0831 MSDS 6306 Doing Data Science/Unit 8/CaseStudy1/MSDS6306_CaseStudy1_HeidiNguyen/Analysis&quot;)
 source (&quot;casestudy1_analyze_data.R&quot;, print.eval=FALSE, echo=FALSE)</code></pre>
-<div id="question-1-there-are-189-matching-ids." class="section level4">
-<h4>Question 1: There are 189 matching IDs.</h4>
+<p>Merge the cleaned GDP data and the cleaned Education data by short country name. The resulting data looks like the following:</p>
+<pre class="r"><code>print(head(clean,10))</code></pre>
+<pre><code>##    CountryCode rank          CountryName GDP2012millionsUSD
+## 1          ABW  161                Aruba               2584
+## 2          ADO   NA                 &lt;NA&gt;                 NA
+## 3          AFG  105          Afghanistan              20497
+## 4          AGO   60               Angola             114147
+## 5          ALB  125              Albania              12648
+## 6          ARE   32 United Arab Emirates             348595
+## 7          ARG   26            Argentina             475502
+## 8          ARM  133              Armenia               9951
+## 9          ASM   NA                 &lt;NA&gt;                 NA
+## 10         ATG  172  Antigua and Barbuda               1134
+##             IncomeGroup
+## 1  High income: nonOECD
+## 2  High income: nonOECD
+## 3            Low income
+## 4   Lower middle income
+## 5   Upper middle income
+## 6  High income: nonOECD
+## 7   Upper middle income
+## 8   Lower middle income
+## 9   Upper middle income
+## 10  Upper middle income</code></pre>
+<pre class="r"><code>print(str(clean))</code></pre>
+<pre><code>## 'data.frame':    211 obs. of  5 variables:
+##  $ CountryCode       : chr  &quot;ABW&quot; &quot;ADO&quot; &quot;AFG&quot; &quot;AGO&quot; ...
+##  $ rank              : int  161 NA 105 60 125 32 26 133 NA 172 ...
+##  $ CountryName       : chr  &quot;Aruba&quot; NA &quot;Afghanistan&quot; &quot;Angola&quot; ...
+##  $ GDP2012millionsUSD: int  2584 NA 20497 114147 12648 348595 475502 9951 NA 1134 ...
+##  $ IncomeGroup       : chr  &quot;High income: nonOECD&quot; &quot;High income: nonOECD&quot; &quot;Low income&quot; &quot;Lower middle income&quot; ...
+## NULL</code></pre>
+<pre class="r"><code>print(dim(clean))</code></pre>
+<pre><code>## [1] 211   5</code></pre>
+<div id="question-1-finding-matching-ids" class="section level4">
+<h4>Question 1: Finding matching IDs</h4>
+<p>There are 189 matching IDs</p>
 <pre class="r"><code>print(dim(matchID))</code></pre>
 <pre><code>## [1] 189   4</code></pre>
-<div id="question-2-the-13th-country-from-the-sorted-data-is-st.kitts-and-nevis." class="section level5">
-<h5>Question 2: The 13th country from the sorted data is St. Kitts and Nevis.</h5>
+<p>There are 22 unmatching IDs</p>
+<pre class="r"><code>print(dim(nonmatchID))</code></pre>
+<pre><code>## [1] 22  4</code></pre>
+<div id="question-2-sort-the-matching-189-data-and-find-the-13th-country-from-the-sorted-data." class="section level5">
+<h5>Question 2: Sort the matching 189 data and find the 13th country from the sorted data.</h5>
+<p>Here is the sorted data by ascending rank:</p>
+<pre class="r"><code>print(head(matchIDsorted))</code></pre>
+<pre><code>##     CountryCode rank GDP2012millionsUSD         IncomeGroup quantile
+## 193         TUV  190                 40 Lower middle income       Q5
+## 101         KIR  189                175 Lower middle income       Q5
+## 124         MHL  188                182 Lower middle income       Q5
+## 151         PLW  187                228 Upper middle income       Q5
+## 174         STP  186                263 Lower middle income       Q5
+## 65          FSM  185                326 Lower middle income       Q5</code></pre>
+<pre class="r"><code>print(tail(matchIDsorted))</code></pre>
+<pre><code>##     CountryCode rank GDP2012millionsUSD         IncomeGroup quantile
+## 67          GBR    6            2471784   High income: OECD       Q1
+## 63          FRA    5            2612878   High income: OECD       Q1
+## 49          DEU    4            3428131   High income: OECD       Q1
+## 96          JPN    3            5959718   High income: OECD       Q1
+## 37          CHN    2            8227103 Lower middle income       Q1
+## 198         USA    1           16244600   High income: OECD       Q1</code></pre>
+<p>The 13th country from the sorted data is St. Kitts and Nevis.</p>
 <pre class="r"><code>print(matchIDsorted[13,])</code></pre>
 <pre><code>##     CountryCode rank GDP2012millionsUSD         IncomeGroup quantile
 ## 102         KNA  178                767 Upper middle income       Q5</code></pre>
@@ -269,8 +369,8 @@ print(mean(matchIDsorted[matchIDsorted$IncomeGroup == &quot;High income: OECD&qu
 <pre class="r"><code>print(mean(matchIDsorted[matchIDsorted$IncomeGroup == &quot;High income: nonOECD&quot;,&quot;rank&quot;]))</code></pre>
 <pre><code>## [1] 91.91304</code></pre>
 </div>
-<div id="question-4-box-plot-the-gdp-for-all-of-the-countries-by-income-group" class="section level4">
-<h4>Question 4: Box Plot the GDP for all of the countries by Income Group</h4>
+<div id="question-4-box-plot-the-gdp-for-all-of-the-189-matching-countries-by-income-group." class="section level4">
+<h4>Question 4: Box Plot the GDP for all of the 189 matching countries by Income Group.</h4>
 <div id="box-plot-before-log-transform" class="section level5">
 <h5>Box Plot before log transform</h5>
 <pre class="r"><code>plot(boxplot)</code></pre>
