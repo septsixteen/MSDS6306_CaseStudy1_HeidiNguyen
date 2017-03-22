@@ -3,6 +3,7 @@
 #Date: 3/23/2017 
 #PART 2:tidying data                                                 
 ################################
+
 #set the directory
 setwd("/Volumes/NO NAME/Data Science/2016-0831 MSDS 6306 Doing Data Science/Unit 8/CaseStudy1/MSDS6306_CaseStudy1_HeidiNguyen/Data")
 
