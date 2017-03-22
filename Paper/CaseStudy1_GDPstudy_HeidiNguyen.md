@@ -368,7 +368,7 @@ print(mean(matchIDsorted[matchIDsorted$IncomeGroup == "High income: nonOECD","ra
 
 #### Question 4: Box Plot the GDP for all of the 189 matching countries by Income Group. 
 
-#####Box Plot before log transform
+##### Box Plot before log transform
 
 ```r
 plot(boxplot)

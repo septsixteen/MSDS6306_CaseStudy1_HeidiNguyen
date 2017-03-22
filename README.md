@@ -37,8 +37,8 @@ II. File structure
     --  CaseStudy1_GDPstudy_HeidiNguyen.Rmd
     --  CaseStudy1_GDPstudy_HeidiNguyen_files
         -- figure-html
-            -- unnamed-chunk-7-1.png
-            -- unnamed-chunk-8-1.png
+            -- unnamed-chunk-12-1.png
+            -- unnamed-chunk-13-1.png
 --  README.md 
 
 
