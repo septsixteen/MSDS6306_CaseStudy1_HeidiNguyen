@@ -195,8 +195,8 @@ $(document).ready(function () {
 <ul>
 <li>figure-html
 <ul>
-<li>unnamed-chunk-7-1.png</li>
-<li>unnamed-chunk-8-1.png</li>
+<li>unnamed-chunk-12-1.png</li>
+<li>unnamed-chunk-13-1.png</li>
 </ul></li>
 </ul></li>
 </ol></li>
@@ -244,7 +244,7 @@ source (&quot;casestudy1_download_data.R&quot;, print.eval=TRUE, echo=FALSE)</co
 <p>Data cleanup is imperative to any data analysis. The following section will walk through cleaning the data to prep for analysis.</p>
 <pre class="r"><code>setwd(&quot;/Volumes/NO NAME/Data Science/2016-0831 MSDS 6306 Doing Data Science/Unit 8/CaseStudy1/MSDS6306_CaseStudy1_HeidiNguyen/Data&quot;)
 source (&quot;casestudy1_clean_data.R&quot;, print.eval=FALSE, echo=FALSE)</code></pre>
-<p>Exam the cleaned GDP data. There are 190 observations.</p>
+<p>Exam the cleaned GDP data. There are 190 observations. GDP ranking and value are classified as integer and numeric.</p>
 <pre class="r"><code>setwd(&quot;/Volumes/NO NAME/Data Science/2016-0831 MSDS 6306 Doing Data Science/Unit 8/CaseStudy1/MSDS6306_CaseStudy1_HeidiNguyen/Data&quot;)
 print(head(GDP,10))</code></pre>
 <pre><code>##    CountryCode rank        CountryName GDP2012millionsUSD groupnote
@@ -268,7 +268,7 @@ print(head(GDP,10))</code></pre>
 ## NULL</code></pre>
 <pre class="r"><code>print(dim(GDP))</code></pre>
 <pre><code>## [1] 190   5</code></pre>
-<p>Exam the cleaned Education data. There are 210 observations.</p>
+<p>Exam the cleaned Education data. There are 210 observations. Income group is classified as factor.</p>
 <pre class="r"><code>print(head(educlean,10))</code></pre>
 <pre><code>##    CountryCode          IncomeGroup
 ## 1          ABW High income: nonOECD
@@ -286,8 +286,6 @@ print(head(GDP,10))</code></pre>
 ##  $ CountryCode: chr  &quot;ABW&quot; &quot;ADO&quot; &quot;AFG&quot; &quot;AGO&quot; ...
 ##  $ IncomeGroup: Factor w/ 6 levels &quot;&quot;,&quot;High income: nonOECD&quot;,..: 2 2 4 5 6 2 6 5 6 6 ...
 ## NULL</code></pre>
-<pre class="r"><code>print(dim(educlean))</code></pre>
-<pre><code>## [1] 210   2</code></pre>
 </div>
 <div id="analyze-data" class="section level3">
 <h3>Analyze Data</h3>
@@ -324,10 +322,8 @@ source (&quot;casestudy1_analyze_data.R&quot;, print.eval=FALSE, echo=FALSE)</co
 ##  $ rank              : int  161 NA 105 60 125 32 26 133 NA 172 ...
 ##  $ CountryName       : chr  &quot;Aruba&quot; NA &quot;Afghanistan&quot; &quot;Angola&quot; ...
 ##  $ GDP2012millionsUSD: int  2584 NA 20497 114147 12648 348595 475502 9951 NA 1134 ...
-##  $ IncomeGroup       : chr  &quot;High income: nonOECD&quot; &quot;High income: nonOECD&quot; &quot;Low income&quot; &quot;Lower middle income&quot; ...
+##  $ IncomeGroup       : Factor w/ 5 levels &quot;High income: nonOECD&quot;,..: 1 1 3 4 5 1 5 4 5 5 ...
 ## NULL</code></pre>
-<pre class="r"><code>print(dim(clean))</code></pre>
-<pre><code>## [1] 211   5</code></pre>
 <div id="question-1-finding-matching-ids" class="section level4">
 <h4>Question 1: Finding matching IDs</h4>
 <p>There are 189 matching IDs</p>
@@ -338,8 +334,8 @@ source (&quot;casestudy1_analyze_data.R&quot;, print.eval=FALSE, echo=FALSE)</co
 <pre><code>## [1] 22  4</code></pre>
 <div id="question-2-sort-the-matching-189-data-and-find-the-13th-country-from-the-sorted-data." class="section level5">
 <h5>Question 2: Sort the matching 189 data and find the 13th country from the sorted data.</h5>
-<p>Here is the sorted data by ascending rank:</p>
-<pre class="r"><code>print(head(matchIDsorted))</code></pre>
+<p>Here is the sorted data by ascending rank. Tuvula has the lowest GDP and highest rank (first in the ascending sorted list); the US has the highest GDP value and rank of 1 (last in the ascending sorted list).</p>
+<pre class="r"><code>print(head(matchIDsorted)) </code></pre>
 <pre><code>##     CountryCode rank GDP2012millionsUSD         IncomeGroup quantile
 ## 193         TUV  190                 40 Lower middle income       Q5
 ## 101         KIR  189                175 Lower middle income       Q5
@@ -427,12 +423,19 @@ print(mean(matchIDsorted[matchIDsorted$IncomeGroup == &quot;High income: OECD&qu
 ##   Q5                   9</code></pre>
 </div>
 <div id="question-6b-there-are-5-countries-which-are-classified-as-lower-middle-income-but-among-the-38-nations-with-the-highest-gdp-the-top-20-gdp-ranking" class="section level4">
-<h4>Question 6b: there are 5 countries which are classified as Lower middle income but among the 38 nations with the highest GDP (the top 20% GDP ranking)</h4>
+<h4>Question 6b: There are 5 countries which are classified as Lower middle income but among the 38 nations with the highest GDP (the top 20% GDP ranking)</h4>
 <pre class="r"><code>#table of countries that are Lower middle income but among the 38 nations with highest GDP.
 tablehighGDPlowmiddleincome</code></pre>
 <pre><code>##     
-##      Lower middle income
-##   Q1                   5
+##      High income: nonOECD High income: OECD Low income Lower middle income
+##   Q1                    0                 0          0                   5
+##   Q2                    0                 0          0                   0
+##   Q3                    0                 0          0                   0
+##   Q4                    0                 0          0                   0
+##   Q5                    0                 0          0                   0
+##     
+##      Upper middle income
+##   Q1                   0
 ##   Q2                   0
 ##   Q3                   0
 ##   Q4                   0
@@ -445,7 +448,7 @@ print(tablehighGDPlowmiddleincome[tablehighGDPlowmiddleincome&gt;0]) </code></pr
 <div id="conclusion" class="section level3">
 <h3>Conclusion</h3>
 <p>In order to analyze the GDP and Education data, we had to go through several steps of cleaning and tidying the data. Data cleaning were performed to remove NAs and Blanks, to replace or to remove unwanted miscellaneous text with appropriate text (e.g: remove commas “,” in the GDP value), to reassign our variable types the correct class of integer (rank and GDP) and factor (income groups), and to remove any miscellaneous data (the world statistics summary). This tidying data process was very important to providing accuracy in our analysis.</p>
-<p>There were 190 countries in the cleaned GDP data set and 211 countries in the cleaned education data set, but there were only 189 matching countries between the two data sets. There were 22 unmatched coutries. As result, the analysis were based on 189 countries of the matched data set.Of those 189 countries, St. Kitts and Nevis (KNA) was identified as the 13th lowest ranked by USD, while Tuvula had the lowest GDP value (first in the ascending sorted list) and the US as having the highest GDP value (last in the ascending sorted list)</p>
+<p>There were 190 countries in the cleaned GDP data set and 211 countries in the cleaned education data set, but there were only 189 matching countries between the two data sets. There were 22 unmatched coutries. As result, the analysis were based on 189 countries of the matched data set.Of those 189 countries, St. Kitts and Nevis (KNA) was identified as the 13th lowest ranked by USD, while Tuvula had the lowest GDP value (first in the ascending sorted list) and the US had the highest GDP value (last in the ascending sorted list)</p>
 <p>The average GDP ranking for the “High income: nonOECD” group was 91.9, which was 2.8 times higher than that of the “High income: OECD”(32.97). This meant the gap income between these 3 groups are quite large. The box plot further confirmed this.</p>
 <p>Due to the skewness of the data and the nature of the magnitude of the data, it was more appropriate to transform the data to log 10 scale. Box plot of the transformed data was deployed to show the distribution of GDP (in million of dollars) of the 189 countries by Income Groups. The log scale plot suggested normal GDP distributions for all income groups. The medians of the High income: nonOECD and the Lower middle income groups are very similar. The high income: OCED has the highest median while the low income has the lowest median with the lowest variability.</p>
 <p>The spread of each group was quite different, however there was overlapping of distribution of all the income groups. We identified 5 countries which were both classified as Lower middle income but ranked as the top 20% GDP ranking. This was not being explained just by examining the data. More economical and/or finance knowledge might be needed to explainn this further. This was the reason data scientist needed not only be competent in programming, data visualization, maths, or statistics, but also needed to be knowlegable in his/her field of work.</p>

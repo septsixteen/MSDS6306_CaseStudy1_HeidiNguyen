@@ -17,11 +17,14 @@ GDPclean <- GDPclean[,c(2:5)]
 educlean <- read.csv("educlean.csv", encoding="latin1", stringsAsFactors=FALSE, header=TRUE, na.strings=c("NA", "NULL"))
 #remove the numbering column 1
 educlean <- educlean[,c(2:3)]
+#change income group to be factor instead of char
+educlean$IncomeGroup <- as.factor(educlean$IncomeGroup )
 
 # Merge the data on "CountryCode" 
 clean <- merge(GDPclean, educlean, by="CountryCode", all=TRUE)
 #check for duplicates of CountryCode
 table(clean$CountryCode)[table(clean$CountryCode) != 1]
+
 
 # write the clean education data set and save in the same /Analysis folder
 setwd("/Volumes/NO NAME/Data Science/2016-0831 MSDS 6306 Doing Data Science/Unit 8/CaseStudy1/MSDS6306_CaseStudy1_HeidiNguyen/Analysis")

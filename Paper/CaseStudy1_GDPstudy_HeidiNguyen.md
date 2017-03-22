@@ -76,8 +76,8 @@ The two datasets were first cleaned, then merged. An analysis of the merged data
     3. CaseStudy1_GDPstudy_HeidiNguyen.Rmd
     4. CaseStudy1_GDPstudy_HeidiNguyen_files
         + figure-html
-            + unnamed-chunk-7-1.png
-            + unnamed-chunk-8-1.png
+            + unnamed-chunk-12-1.png
+            + unnamed-chunk-13-1.png
             
 - README.md
 
@@ -129,13 +129,14 @@ source ("casestudy1_download_data.R", print.eval=TRUE, echo=FALSE)
 ### Clean Data
 Data cleanup is imperative to any data analysis. The following section will walk through cleaning the data to prep for analysis.
 
+
 ```r
 setwd("/Volumes/NO NAME/Data Science/2016-0831 MSDS 6306 Doing Data Science/Unit 8/CaseStudy1/MSDS6306_CaseStudy1_HeidiNguyen/Data")
 source ("casestudy1_clean_data.R", print.eval=FALSE, echo=FALSE)
 ```
 
 Exam the cleaned GDP data. There are 190 observations. 
-
+GDP ranking and value are classified as integer and numeric.
 
 ```r
 setwd("/Volumes/NO NAME/Data Science/2016-0831 MSDS 6306 Doing Data Science/Unit 8/CaseStudy1/MSDS6306_CaseStudy1_HeidiNguyen/Data")
@@ -179,7 +180,7 @@ print(dim(GDP))
 ```
 
 Exam the cleaned Education data. There are 210 observations.
-
+Income group is classified as factor. 
 
 ```r
 print(head(educlean,10))
@@ -210,16 +211,9 @@ print(str(educlean))
 ## NULL
 ```
 
-```r
-print(dim(educlean))
-```
-
-```
-## [1] 210   2
-```
-
 ### Analyze Data
 The casestudy1_analyze_data.R file merges and analyzes the data to answer the study questions. 
+
 
 ```r
 setwd("/Volumes/NO NAME/Data Science/2016-0831 MSDS 6306 Doing Data Science/Unit 8/CaseStudy1/MSDS6306_CaseStudy1_HeidiNguyen/Analysis")
@@ -227,7 +221,6 @@ source ("casestudy1_analyze_data.R", print.eval=FALSE, echo=FALSE)
 ```
 
 Merge the cleaned GDP data and the cleaned Education data by short country name. The resulting data looks like the following: 
-
 
 ```r
 print(head(clean,10))
@@ -268,16 +261,8 @@ print(str(clean))
 ##  $ rank              : int  161 NA 105 60 125 32 26 133 NA 172 ...
 ##  $ CountryName       : chr  "Aruba" NA "Afghanistan" "Angola" ...
 ##  $ GDP2012millionsUSD: int  2584 NA 20497 114147 12648 348595 475502 9951 NA 1134 ...
-##  $ IncomeGroup       : chr  "High income: nonOECD" "High income: nonOECD" "Low income" "Lower middle income" ...
+##  $ IncomeGroup       : Factor w/ 5 levels "High income: nonOECD",..: 1 1 3 4 5 1 5 4 5 5 ...
 ## NULL
-```
-
-```r
-print(dim(clean))
-```
-
-```
-## [1] 211   5
 ```
 
 #### Question 1: Finding matching IDs 
@@ -303,12 +288,11 @@ print(dim(nonmatchID))
 ```
 
 ##### Question 2: Sort the matching 189 data and find the 13th country from the sorted data.
-
-Here is the sorted data by ascending rank: 
+Here is the sorted data by ascending rank. Tuvula has the lowest GDP and highest rank (first in the ascending sorted list); the US has the highest GDP value and rank of 1 (last in the ascending sorted list).
 
 
 ```r
-print(head(matchIDsorted))
+print(head(matchIDsorted)) 
 ```
 
 ```
@@ -336,7 +320,6 @@ print(tail(matchIDsorted))
 ```
 
 The 13th country from the sorted data is St. Kitts and Nevis. 
-
 
 ```r
 print(matchIDsorted[13,])
@@ -441,7 +424,7 @@ print(tablequantileincomegroup)
 ##   Q5                   9
 ```
 
-#### Question 6b: there are 5 countries which are classified as Lower middle income but among the 38 nations with the highest GDP (the top 20% GDP ranking) 
+#### Question 6b: There are 5 countries which are classified as Lower middle income but among the 38 nations with the highest GDP (the top 20% GDP ranking) 
 
 ```r
 #table of countries that are Lower middle income but among the 38 nations with highest GDP.
@@ -450,8 +433,15 @@ tablehighGDPlowmiddleincome
 
 ```
 ##     
-##      Lower middle income
-##   Q1                   5
+##      High income: nonOECD High income: OECD Low income Lower middle income
+##   Q1                    0                 0          0                   5
+##   Q2                    0                 0          0                   0
+##   Q3                    0                 0          0                   0
+##   Q4                    0                 0          0                   0
+##   Q5                    0                 0          0                   0
+##     
+##      Upper middle income
+##   Q1                   0
 ##   Q2                   0
 ##   Q3                   0
 ##   Q4                   0
@@ -472,7 +462,7 @@ print(tablehighGDPlowmiddleincome[tablehighGDPlowmiddleincome>0])
 In order to analyze the GDP and Education data, we had to go through several steps of cleaning and tidying the data. Data cleaning were performed to remove NAs and Blanks, to replace or to remove unwanted miscellaneous text with appropriate text (e.g: remove commas "," in the GDP value), to reassign our variable types the correct class of integer (rank and GDP) and factor (income groups), and to remove any miscellaneous data (the world statistics summary). 
 This tidying data process was very important to providing accuracy in our analysis.  
 
-There were 190 countries in the cleaned GDP data set and 211 countries in the cleaned education data set, but there were only 189 matching countries between the two data sets. There were 22 unmatched coutries.  As  result, the analysis were based on 189 countries of the matched data set.Of those 189 countries, St. Kitts and Nevis (KNA) was identified as the 13th lowest ranked by USD, while Tuvula had the lowest GDP value (first in the ascending sorted list) and the US as having the highest GDP value (last in the ascending sorted list)
+There were 190 countries in the cleaned GDP data set and 211 countries in the cleaned education data set, but there were only 189 matching countries between the two data sets. There were 22 unmatched coutries.  As  result, the analysis were based on 189 countries of the matched data set.Of those 189 countries, St. Kitts and Nevis (KNA) was identified as the 13th lowest ranked by USD, while Tuvula had the lowest GDP value (first in the ascending sorted list) and the US had the highest GDP value (last in the ascending sorted list)
  
 The average GDP ranking for the "High income: nonOECD" group was 91.9, which was 2.8 times higher than that of the "High income: OECD"(32.97). This meant the gap income between these 3 groups are quite large. The box plot further confirmed this. 
 
